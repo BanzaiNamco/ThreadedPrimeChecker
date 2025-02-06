@@ -2,6 +2,8 @@
 #include <iostream>
 #include <chrono>
 #include <mutex>
+#include <ctime>
+#include <string>
 #include <iomanip>
 
 #include "primeChecker.h"
@@ -27,27 +29,30 @@ void PrimeChecker::immediatePrimePrint(int start, int end, int threadId) {
     for (int i = start; i <= end; i++) {
         if (PrimeChecker::isPrime(i)) {
             // get current time
-            time_t currentTime = getCurrentTime();
-
+            
+            string currentTime = getCurrentTime();
             lock_guard<mutex> guard(printMutex);
-            cout << "Thread " << threadId << ": " << i << " at " 
-                 << put_time(localtime(&currentTime), "%Y-%m-%d %H:%M:%S") << endl;        
+            cout << "Thread " << threadId << ": " << i << " at " << currentTime << endl;
         }
     }
 }
 
-void PrimeChecker::storePrimes(int start, int end, vector<pair<time_t, int>> &primes) {
+void PrimeChecker::storePrimes(int start, int end, vector<pair<string, int>> &primes) {
     for (int i = start; i <= end; i++) {
         if (PrimeChecker::isPrime(i)) {
-            time_t currentTime = getCurrentTime();
 
+            string currentTime = getCurrentTime();
             lock_guard<mutex> guard(printMutex);
             primes.push_back(make_pair(currentTime, i));
         }
     }
 }
 
-time_t PrimeChecker::getCurrentTime() {
+string PrimeChecker::getCurrentTime() {
     auto now = chrono::system_clock::now();
-    return chrono::system_clock::to_time_t(now);
+    auto currentTime = chrono::system_clock::to_time_t(now);
+    auto ms = chrono::duration_cast<chrono::milliseconds>(now.time_since_epoch()) % 1000;
+    stringstream ss;
+    ss << put_time(localtime(&currentTime), "%Y-%m-%d %H:%M:%S") << '.' << setfill('0') << setw(3) << ms.count();
+    return ss.str();
 }

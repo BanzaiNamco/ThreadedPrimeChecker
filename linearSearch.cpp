@@ -5,6 +5,8 @@
 #include <iomanip>
 #include <mutex>
 #include <atomic>
+#include <string>
+#include <stdlib.h>
 #include "primeChecker.h"
 #include "linearSearch.h"
 
@@ -31,7 +33,7 @@ void linearSearch::runImmediatePrint(int numOfThreads, int maxNum) {
 void linearSearch::runPrintAtEnd(int numOfThreads, int maxNum) {
     atomic <int> currentNumber(2);
     vector<thread> threads;
-    vector<pair<time_t, int>> primes;
+    vector<pair<string, int>> primes;
 
     for (int i = 0; i < numOfThreads; i++) {
         threads.emplace_back([&currentNumber, maxNum, &primes] {
@@ -47,7 +49,7 @@ void linearSearch::runPrintAtEnd(int numOfThreads, int maxNum) {
     }
 
     for (auto &p : primes) {
-        cout << "Main Thread: " << p.second << " at " << put_time(localtime(&p.first), "%Y-%m-%d %H:%M:%S") << endl;
+        cout << "Main Thread: " << p.second << " at " << p.first << endl;
     }
     cout << endl;
 

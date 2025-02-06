@@ -32,7 +32,7 @@ void SearchRange::runImmediatePrint(int numOfThreads, int maxNum) {
 
 void SearchRange::runPrintAtEnd(int numOfThreads, int maxNum) {
     vector<thread> threads;
-    vector<pair<time_t, int>> primes;
+    vector<pair<string, int>> primes;
     int range = maxNum / numOfThreads;
     int start = 2;
     for (int i = 0; i < numOfThreads; i++) {
@@ -50,7 +50,7 @@ void SearchRange::runPrintAtEnd(int numOfThreads, int maxNum) {
 
     // print the prime numbers at the end
     for (auto &p : primes) {
-        cout << "Main Thread: " << p.second << " at " << put_time(localtime(&p.first), "%Y-%m-%d %H:%M:%S") << endl;
+        cout << "Main Thread: " << p.second << " at " << p.first << endl;
     }
     cout << endl;
 }

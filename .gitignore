@@ -25,3 +25,5 @@ Thumbs.db
 *.sw?
 
 config.txt
+
+*.exe
