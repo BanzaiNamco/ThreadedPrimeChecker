@@ -20,22 +20,22 @@ bool getConfig(unsigned int &x, unsigned int &y, unsigned int &variation) {
 
     string line;
 
-    auto parseInteger = [](const string& line2) {
+    auto parseInteger = [](const string& line2) -> unsigned int {
       try {
           int val = stoi(line2);
           if (val <= 0) {
               cout << "Invalid input: must be greater than 0\n";
-              return -1;
+              return 0;
           }
-          return val;
+          return static_cast<unsigned int>(val);
       } catch (const invalid_argument&) {
           cout << "Invalid input: not an integer\n";
-          return -1;
+          return 0;
       } catch (const out_of_range&) {
           cout << "Invalid input: out of range\n";
-          return -1;
+          return 0;
       }
-      return -1;
+      return 0;
     };
 
 
@@ -48,7 +48,7 @@ bool getConfig(unsigned int &x, unsigned int &y, unsigned int &variation) {
     getline(config_file, line);
     y = parseInteger(line);
 
-    if (x == -1 || y == -1) {
+    if (x <= 0 || y <= 0) {
         return false;
     }
 
@@ -98,7 +98,7 @@ int main() {
       break;
     default:
       cout << "Invalid Variation" << endl;
-      exit(1);
+      break;
   }
   cout << "Program End Time: " << PrimeChecker::getCurrentTime() << endl;
 

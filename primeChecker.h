@@ -5,8 +5,8 @@
 #include <string>
 
 namespace PrimeChecker {
-    bool isPrime(int n);
-    void immediatePrimePrint(int start, int end, int threadId);
-    void storePrimes(int start, int end, std::vector<std::pair<std::string, int>> &primes);
+    bool isPrime(unsigned int n);
+    void immediatePrimePrint(unsigned int start, unsigned int end, unsigned int threadId);
+    void storePrimes(unsigned int start, unsigned int end, unsigned int threadNo, std::vector<std::tuple<std::string, unsigned int, unsigned int>> &primes);
     std::string getCurrentTime();
 }

@@ -1,6 +1,6 @@
 #pragma once
 
 namespace linearSearch {
-    void runImmediatePrint(int numOfThreads, int maxNum);
-    void runPrintAtEnd(int numOfThreads, int maxNum);
+    void runImmediatePrint(unsigned int numOfThreads, unsigned int maxNum);
+    void runPrintAtEnd(unsigned int numOfThreads, unsigned int maxNum);
 };

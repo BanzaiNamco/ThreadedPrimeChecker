@@ -12,14 +12,14 @@
 
 using namespace std;
 
-void linearSearch::runImmediatePrint(int numOfThreads, int maxNum) {
-    atomic <int> currentNumber(2);
+void linearSearch::runImmediatePrint(unsigned int numOfThreads, unsigned int maxNum) {
+    atomic <unsigned int> currentNumber(2);
     vector<thread> threads;
 
-    for (int i = 0; i < numOfThreads; i++) {
+    for (unsigned int i = 0; i < numOfThreads; i++) {
         threads.emplace_back([&currentNumber, maxNum, i] {
             while (currentNumber <= maxNum) {
-                int number = currentNumber.fetch_add(1); // this returns the number before 1 is added
+                unsigned int number = currentNumber.fetch_add(1); // this returns the number before 1 is added
                 PrimeChecker::immediatePrimePrint(number, number, i);
             }
         });
@@ -30,16 +30,16 @@ void linearSearch::runImmediatePrint(int numOfThreads, int maxNum) {
     }
 }
 
-void linearSearch::runPrintAtEnd(int numOfThreads, int maxNum) {
-    atomic <int> currentNumber(2);
+void linearSearch::runPrintAtEnd(unsigned int numOfThreads, unsigned int maxNum) {
+    atomic <unsigned int> currentNumber(2);
     vector<thread> threads;
-    vector<pair<string, int>> primes;
+    vector<tuple<string, unsigned int, unsigned int>> primes;
 
-    for (int i = 0; i < numOfThreads; i++) {
-        threads.emplace_back([&currentNumber, maxNum, &primes] {
+    for (unsigned int i = 0; i < numOfThreads; i++) {
+        threads.emplace_back([&currentNumber, maxNum, i, &primes] {
             while (currentNumber <= maxNum) {
-                int number = currentNumber.fetch_add(1);
-                PrimeChecker::storePrimes(number, number, ref(primes));
+                unsigned int number = currentNumber.fetch_add(1);
+                PrimeChecker::storePrimes(number, number, i, ref(primes));
             }
         });
     }
@@ -49,7 +49,7 @@ void linearSearch::runPrintAtEnd(int numOfThreads, int maxNum) {
     }
 
     for (auto &p : primes) {
-        cout << "Main Thread: " << p.second << " at " << p.first << endl;
+        cout << "Main Thread (found at thread #" << get<2>(p) << "): " << get<1>(p) << " at " << get<0>(p) << endl;
     }
     cout << endl;
 

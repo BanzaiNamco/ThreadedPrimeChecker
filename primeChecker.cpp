@@ -12,12 +12,12 @@ using namespace std;
 
 mutex printMutex;
 
-bool PrimeChecker::isPrime(int n) {
+bool PrimeChecker::isPrime(unsigned int n) {
     if (n <= 1) {
         return false;
     }
     // check only from 2 to sqrt(n)
-    for (int i = 2; i * i <= n; i++) {
+    for (unsigned int i = 2; i * i <= n; i++) {
         if (n % i == 0) {
             return false;
         }
@@ -25,8 +25,8 @@ bool PrimeChecker::isPrime(int n) {
     return true;
 }
 
-void PrimeChecker::immediatePrimePrint(int start, int end, int threadId) {
-    for (int i = start; i <= end; i++) {
+void PrimeChecker::immediatePrimePrint(unsigned int start, unsigned int end, unsigned int threadId) {
+    for (unsigned int i = start; i <= end; i++) {
         if (PrimeChecker::isPrime(i)) {
             // get current time
             
@@ -37,13 +37,13 @@ void PrimeChecker::immediatePrimePrint(int start, int end, int threadId) {
     }
 }
 
-void PrimeChecker::storePrimes(int start, int end, vector<pair<string, int>> &primes) {
-    for (int i = start; i <= end; i++) {
+void PrimeChecker::storePrimes(unsigned int start, unsigned int end, unsigned int threadNo, vector<tuple<string, unsigned int, unsigned int>> &primes) {
+    for (unsigned int i = start; i <= end; i++) {
         if (PrimeChecker::isPrime(i)) {
 
             string currentTime = getCurrentTime();
             lock_guard<mutex> guard(printMutex);
-            primes.push_back(make_pair(currentTime, i));
+            primes.push_back(make_tuple(currentTime, i, threadNo));
         }
     }
 }

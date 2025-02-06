@@ -9,15 +9,15 @@
 
 using namespace std;
 
-void SearchRange::runImmediatePrint(int numOfThreads, int maxNum) {
+void SearchRange::runImmediatePrint(unsigned int numOfThreads, unsigned int maxNum) {
     // divide the search range into numOfThreads
     // each thread will check a portion of the search range
     // print the prime numbers immediately
     vector<thread> threads;
-    int range = maxNum / numOfThreads;
-    int start = 2;
-    for (int i = 0; i < numOfThreads; i++) {
-        int end = start + range - 1;
+    unsigned int range = maxNum / numOfThreads;
+    unsigned int start = 2;
+    for (unsigned int i = 0; i < numOfThreads; i++) {
+        unsigned int end = start + range - 1;
         if (i == numOfThreads - 1) {
             end = maxNum;
         }
@@ -30,17 +30,17 @@ void SearchRange::runImmediatePrint(int numOfThreads, int maxNum) {
     }
 }
 
-void SearchRange::runPrintAtEnd(int numOfThreads, int maxNum) {
+void SearchRange::runPrintAtEnd(unsigned int numOfThreads, unsigned int maxNum) {
     vector<thread> threads;
-    vector<pair<string, int>> primes;
-    int range = maxNum / numOfThreads;
-    int start = 2;
-    for (int i = 0; i < numOfThreads; i++) {
-        int end = start + range - 1;
+    vector<tuple<string, unsigned int, unsigned int>> primes;
+    unsigned int range = maxNum / numOfThreads;
+    unsigned int start = 2;
+    for (unsigned int i = 0; i < numOfThreads; i++) {
+        unsigned int end = start + range - 1;
         if (i == numOfThreads - 1) {
             end = maxNum;
         }
-        threads.emplace_back(PrimeChecker::storePrimes, start, end, ref(primes));
+        threads.emplace_back(PrimeChecker::storePrimes, start, end, i, ref(primes));
         start = end + 1;
     }
 
@@ -50,7 +50,7 @@ void SearchRange::runPrintAtEnd(int numOfThreads, int maxNum) {
 
     // print the prime numbers at the end
     for (auto &p : primes) {
-        cout << "Main Thread: " << p.second << " at " << p.first << endl;
+        cout << "Main Thread (found at thread #" << get<2>(p) << "): " << get<1>(p) << " at " << get<0>(p) << endl;
     }
     cout << endl;
 }
