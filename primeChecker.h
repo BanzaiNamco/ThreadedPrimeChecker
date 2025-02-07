@@ -3,10 +3,13 @@
 #include <utility> 
 #include <ctime> 
 #include <string>
+#include <thread>
+#include <atomic>
 
 namespace PrimeChecker {
-    bool isPrime(unsigned int n);
-    void immediatePrimePrint(unsigned int start, unsigned int end, unsigned int threadId);
-    void storePrimes(unsigned int start, unsigned int end, unsigned int threadNo, std::vector<std::tuple<std::string, unsigned int, unsigned int>> &primes);
+    bool isPrime(int n);
+    void immediatePrimePrint(int start, int end, int threadId);
+    void storePrimes(int start, int end, int threadNo, std::vector<std::tuple<std::string, int, int>> &primes);
     std::string getCurrentTime();
+    void divisibilityChecker(int n, int divisor, std::atomic<bool> &isPrime, std::atomic<int> &threadId, int i);
 }

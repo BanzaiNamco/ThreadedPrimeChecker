@@ -11,7 +11,7 @@
 
 using namespace std;
 
-bool getConfig(unsigned int &x, unsigned int &y, unsigned int &variation) {
+bool getConfig(int &x, int &y, int &variation) {
     ifstream config_file("config.txt");
     if (!config_file) {
         cout << "Error: config.txt not found" << endl;
@@ -20,14 +20,14 @@ bool getConfig(unsigned int &x, unsigned int &y, unsigned int &variation) {
 
     string line;
 
-    auto parseInteger = [](const string& line2) -> unsigned int {
+    auto parseInteger = [](const string& line2) -> int {
       try {
           int val = stoi(line2);
           if (val <= 0) {
               cout << "Invalid input: must be greater than 0\n";
               return 0;
           }
-          return static_cast<unsigned int>(val);
+          return val;
       } catch (const invalid_argument&) {
           cout << "Invalid input: not an integer\n";
           return 0;
@@ -66,7 +66,7 @@ bool getConfig(unsigned int &x, unsigned int &y, unsigned int &variation) {
 }
 
 int main() {
-  unsigned int x, y, variation;
+  int x, y, variation;
   if(!getConfig(x, y, variation)) {
     cout << "Invalid configuration" << endl;
     return 0;
@@ -90,11 +90,11 @@ int main() {
       break;
     case 3:
       cout << "Variation 3: Threads are for divisibility testing + Print immediately" << endl;
-      linearSearch::runImmediatePrint(x, y);
+      linearSearch::immediatePrint(x, y);
       break;
     case 4:
       cout << "Variation 4: Threads are for divisibility testing + Print at the end" << endl;
-      linearSearch::runPrintAtEnd(x, y);
+      linearSearch::delayPrint(x, y);
       break;
     default:
       cout << "Invalid Variation" << endl;
@@ -102,8 +102,8 @@ int main() {
   }
   cout << "Program End Time: " << PrimeChecker::getCurrentTime() << endl;
 
-  cout << "Press Enter to close the program" << endl;
-  cin.get();
+  // cout << "Press Enter to close the program" << endl;
+  // cin.get();
 
   return 0;
 }

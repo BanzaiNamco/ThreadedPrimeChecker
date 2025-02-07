@@ -9,15 +9,15 @@
 
 using namespace std;
 
-void SearchRange::runImmediatePrint(unsigned int numOfThreads, unsigned int maxNum) {
+void SearchRange::runImmediatePrint(int numOfThreads, int maxNum) {
     // divide the search range into numOfThreads
     // each thread will check a portion of the search range
     // print the prime numbers immediately
     vector<thread> threads;
-    unsigned int range = maxNum / numOfThreads;
-    unsigned int start = 2;
-    for (unsigned int i = 0; i < numOfThreads; i++) {
-        unsigned int end = start + range - 1;
+    int range = maxNum / numOfThreads;
+    int start = 2;
+    for (int i = 0; i < numOfThreads; i++) {
+        int end = start + range - 1;
         if (i == numOfThreads - 1) {
             end = maxNum;
         }
@@ -30,13 +30,13 @@ void SearchRange::runImmediatePrint(unsigned int numOfThreads, unsigned int maxN
     }
 }
 
-void SearchRange::runPrintAtEnd(unsigned int numOfThreads, unsigned int maxNum) {
+void SearchRange::runPrintAtEnd(int numOfThreads, int maxNum) {
     vector<thread> threads;
-    vector<tuple<string, unsigned int, unsigned int>> primes;
-    unsigned int range = maxNum / numOfThreads;
-    unsigned int start = 2;
-    for (unsigned int i = 0; i < numOfThreads; i++) {
-        unsigned int end = start + range - 1;
+    vector<tuple<string, int, int>> primes;
+    int range = maxNum / numOfThreads;
+    int start = 2;
+    for (int i = 0; i < numOfThreads; i++) {
+        int end = start + range - 1;
         if (i == numOfThreads - 1) {
             end = maxNum;
         }
