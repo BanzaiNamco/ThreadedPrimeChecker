@@ -4,7 +4,7 @@ g++ main.cpp linearSearch.cpp primeChecker.cpp searchRange.cpp -o my_program
 
 ### Run
 
-Click on .exe
+Click on .exe file or run in terminal with `./my_program`
 
 ### config.txt format
 
